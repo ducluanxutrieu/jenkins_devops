@@ -7,7 +7,6 @@ data "aws_ami" "amazon-linux-2" {
     values = ["amazon"]
   }
 
-
   filter {
     name   = "name"
     values = ["amzn2-ami-hvm*"]
@@ -15,7 +14,6 @@ data "aws_ami" "amazon-linux-2" {
 }
 
 data "aws_key_pair" "main-key" {
-  #   key_name           = "main-key.pem"
   include_public_key = true
 
   filter {
@@ -27,7 +25,7 @@ data "aws_key_pair" "main-key" {
 
 resource "aws_instance" "jenkins" {
   ami           = data.aws_ami.amazon-linux-2.id
-  instance_type = "t2.medium"
+  instance_type = "t2.micro"
   key_name      = data.aws_key_pair.main-key.key_name
 
   network_interface {
@@ -70,7 +68,7 @@ resource "aws_instance" "jenkins" {
 resource "aws_security_group" "allow_tls" {
   name        = "allow_tls"
   description = "Allow TLS inbound traffic"
-  vpc_id      = aws_vpc.main_vpc.id
+  vpc_id      = module.aws_vpc.vpc_id
 
   ingress {
     description = "TLS from VPC"
@@ -130,7 +128,7 @@ resource "aws_internet_gateway" "gw" {
 }
 
 resource "aws_network_interface" "primary_network_interface" {
-  subnet_id       = aws_subnet.public_subnet.id
+  subnet_id       = module.aws_vpc.public_subnet
   private_ips     = ["173.16.12.140"]
   security_groups = [aws_security_group.allow_tls.id]
 

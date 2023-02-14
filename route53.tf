@@ -10,7 +10,7 @@ data "aws_route53_zone" "hosted_zone" {
 
 resource "aws_route53_record" "cf_dns" {
   zone_id = data.aws_route53_zone.hosted_zone.zone_id
-  name    = "devops.${local.domain}"
+  name    = "jenkins.${local.domain}"
   type    = "A"
   ttl     = 300
   records = [aws_instance.jenkins.public_ip]

@@ -10,8 +10,9 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "ducluanxutrieu"
-    key    = "terraform/jenkins"
-    region = "ap-southeast-1"
+    bucket         = "ducluanxutrieu"
+    key            = "terraform/jenkins"
+    dynamodb_table = "terraform-state-lock"
+    region         = "ap-southeast-1"
   }
 }
