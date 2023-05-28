@@ -1,3 +1,0 @@
-locals {
-  domain = "luantd.tech"
-}

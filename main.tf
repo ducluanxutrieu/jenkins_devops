@@ -3,16 +3,17 @@ provider "aws" {
   default_tags {
     tags = {
       Environment = "Test"
-      Name        = "Provider Tag"
+      Name        = "Jenkins"
+      Managed_By  = "Terraform"
     }
   }
 }
 
 terraform {
   backend "s3" {
-    bucket         = "ducluanxutrieu"
-    key            = "terraform/jenkins"
-    dynamodb_table = "terraform-state-lock"
-    region         = "ap-southeast-1"
+    bucket = "luantd"
+    key    = "terraform/jenkins.tfstate"
+    # dynamodb_table = "terraform-state-lock"
+    region = "ap-southeast-1"
   }
 }
